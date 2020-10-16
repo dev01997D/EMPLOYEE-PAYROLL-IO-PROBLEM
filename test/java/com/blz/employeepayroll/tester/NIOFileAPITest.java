@@ -9,6 +9,9 @@ import java.util.stream.IntStream;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.blz.employeepayroll.model.FilesUtils;
+import com.blz.employeepayroll.model.java8WatchServiceExample;
+
 public class NIOFileAPITest {
 	private static String HOME = System.getProperty("user.home");
 	private static String PLAY_WITH_NIO = "TempPlayGround";
@@ -46,5 +49,12 @@ public class NIOFileAPITest {
 		Files.newDirectoryStream(playPath).forEach(System.out::println);
 		Files.newDirectoryStream(playPath, path -> path.toFile().isFile() && path.toString().startsWith("temp"))
 				.forEach(System.out::println);
+	}
+
+	@Test
+	public void givenADirectoryWhenWatchedListsAllTheActivities() throws IOException, InterruptedException {
+		Path dir = Paths.get(HOME + "/" + PLAY_WITH_NIO);
+		Files.list(dir).filter(Files::isRegularFile).forEach(System.out::println);
+		new java8WatchServiceExample(dir).processEvents();
 	}
 }
