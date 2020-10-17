@@ -11,29 +11,30 @@ import com.blz.employeepayroll.model.EmployeePayrollData;
 import com.blz.employeepayroll.model.EmployeePayrollFileIOService;
 
 public class PayrollService {
-	public enum IOService{
+	public enum IOService {
 		CONSOLE_IO, FILE_IO, DB_IO, REST_IO;
 	}
+
 	private List<EmployeePayrollData> employeePayrollList;
 
 	public PayrollService() {
 
 	}
 
-	//Constructor
+	// Constructor
 	public PayrollService(List<EmployeePayrollData> employeePayrollList) {
 		this.employeePayrollList = employeePayrollList;
 	}
 
-	//Method to print data back to console or file or DB
+	// Method to print data back to console or file or DB
 	public void write(IOService ioService) {
-		if(ioService.equals(ioService.CONSOLE_IO))
+		if (ioService.equals(ioService.CONSOLE_IO))
 			System.out.println("Given Employee Data is : " + employeePayrollList);
-		else if(ioService.equals(ioService.FILE_IO))
+		else if (ioService.equals(ioService.FILE_IO))
 			new EmployeePayrollFileIOService().writeData(employeePayrollList);
 	}
 
-	//Method to take data from console
+	// Method to take data from console
 	private void readEmployeeData(Scanner SC) {
 		System.out.println("Enter your name : ");
 		String name = SC.nextLine();
@@ -45,7 +46,26 @@ public class PayrollService {
 		employeePayrollList.add(empData);
 	}
 
-	//MAin method to control the flow of execution
+	// Counting total number of entries into the payroll list
+	public long countEntries(IOService fileIo) {
+		return new EmployeePayrollFileIOService().countEntries(employeePayrollList);
+	}
+
+	// Printing all the entries of PayrollList
+	public void printData(IOService fileIo) {
+		if (fileIo.equals(IOService.FILE_IO))
+			new EmployeePayrollFileIOService().printData((employeePayrollList));
+	}
+
+	// Reading the employee payroll list so that we can do any operation
+	public long readEmployeeData(IOService fileIo) {
+		List<String> list=new ArrayList<>();
+		if (fileIo.equals(IOService.FILE_IO))
+			list = new EmployeePayrollFileIOService().readData();
+		return list.size();
+	}
+
+	// Main method to control the flow of execution
 	public static void main(String[] args) {
 		Scanner SC = new Scanner(System.in);
 		ArrayList<EmployeePayrollData> employeePayrollList = new ArrayList<EmployeePayrollData>();
@@ -54,14 +74,5 @@ public class PayrollService {
 		employeePayrollService.readEmployeeData(SC);
 		employeePayrollService.write(IOService.CONSOLE_IO);
 
-	}
-
-	public long countEntries(IOService fileIo) {
-		
-		return new EmployeePayrollFileIOService().countEntries(employeePayrollList);
-	}
-
-	public void printData(IOService fileIo) {
-		new EmployeePayrollFileIOService().printData((employeePayrollList));
 	}
 }

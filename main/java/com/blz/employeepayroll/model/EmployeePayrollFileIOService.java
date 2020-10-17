@@ -38,4 +38,15 @@ public class EmployeePayrollFileIOService {
 			e.printStackTrace();
 		}
 	}
+
+	public List<String> readData() {
+		List<String> employeePayrollList = new ArrayList<>();
+		try {
+			Files.lines(new File(PAYROLL_FILE_NAME).toPath()).map(line -> line.trim())
+					.forEach(line -> employeePayrollList.add(line));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return employeePayrollList;
+	}
 }

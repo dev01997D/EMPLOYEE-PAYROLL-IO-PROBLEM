@@ -27,5 +27,11 @@ public class PayrollTest {
 		payrollService.printData(IOService.FILE_IO);
 		Assert.assertEquals(3, entriesCount);
 	}
+	
+	@Test
+	public void givenFileOnReadingFromFileShouldMatchEmployeeCount() {
+		PayrollService payrollService=new PayrollService();
+		long entries=payrollService.readEmployeeData(IOService.FILE_IO);
+	}
 
 }
