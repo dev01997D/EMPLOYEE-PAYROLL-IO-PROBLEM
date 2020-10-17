@@ -1,4 +1,5 @@
 package com.blz.employeepayroll.model;
+
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
@@ -42,7 +43,7 @@ public class java8WatchServiceExample {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void processEvents(){
+	public void processEvents() {
 		while (true) {
 			WatchKey key;
 			try {
@@ -51,10 +52,11 @@ public class java8WatchServiceExample {
 				return;
 			}
 			Path dir = dirWatchers.get(key);
-			if (dir == null) continue;
+			if (dir == null)
+				continue;
 			for (WatchEvent<?> event : key.pollEvents()) {
 				WatchEvent.Kind kind = event.kind();
-				Path name = ((WatchEvent<Path>)event).context();
+				Path name = ((WatchEvent<Path>) event).context();
 				Path child = dir.resolve(name);
 				System.out.format("%s: %s\n", event.kind().name(), child);
 
